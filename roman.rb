@@ -18,30 +18,33 @@ def to_roman(num)
   result = []
   values = N2R.keys.sort.reverse
   values.each_with_index do |val, i|
-    puts "#{i}: #{val} (#{N2R[val]})"
+    #puts "#{i}: #{val} (#{N2R[val]})"
     # whole nums
     if num >= val
       rem = num / val
       num -= rem * val
       result.push N2R[val] * rem
-      puts ">> #{num}: #{result[-1]}"
+      #puts ">> #{num} + #{rem}*#{val}: #{result[-1]}"
     end
+    
     # partial nums 9x 4x
+    next if i+2 >= values.length || val.to_s[0] != ?1
+    
     num10 = num*10
-    if num10 >= 9*val && i+2 < values.length
+    if num10 >= 9*val
       val1 = values[i+2]
       rem = 9
       num -= rem * val1
       result.push "#{N2R[val1]}#{N2R[val]}"
-      puts ">> #{num}: #{result[-1]}"
+      #puts ">> #{num} + #{rem}*#{val1}: #{result[-1]}"
     end
-    if num10 >= 4*val && num10 < 5*val && i+2 < values.length
+    if num10 >= 4*val && num10 < 5*val
       val1 = values[i+2]
       val5 = values[i+1]
       rem = 4
       num -= rem * val1
       result.push "#{N2R[val1]}#{N2R[val5]}"
-      puts ">> #{num}: #{result[-1]}"
+      #puts ">> #{num} + #{rem}*#{val1}: #{result[-1]}"
     end
   end
   return result.join ''
@@ -50,6 +53,6 @@ end
 puts to_roman 1999
 puts to_roman 1995
 puts to_roman 2004
-(1..20).each do |i|
+(1..100).each do |i|
   puts to_roman i
 end
